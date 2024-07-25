@@ -7,20 +7,15 @@ import socket from "../lib";
 const Home = () => {
   const [notifications, setNotifications] = useState<string[]>([]);
   const [message, setMessage] = useState<string>("");
-
-  useEffect(() => {
-    socket.on("receiveNotification", (notification: string) => {
-      setNotifications((prev) => [...prev, notification]);
-    });
-
-    return () => {
-      socket.off("receiveNotification");
-    };
-  }, []);
-
-  const sendNotification = () => {
+  const sendNotification = async () => {
     if (message.trim()) {
-      socket.emit("sendNotification", message);
+      await fetch("/api/notify", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ message }),
+      });
       setMessage("");
     }
   };

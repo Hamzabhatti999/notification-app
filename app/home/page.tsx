@@ -5,36 +5,14 @@ import { useEffect, useState } from "react";
 import socket from "@/lib";
 
 const Home = () => {
-  const [notifications, setNotifications] = useState<string[]>([]);
+  const [notifications, setNotifications] = useState<any[]>([]);
   const [message, setMessage] = useState<string>("");
-
-  useEffect(() => {
-    socket.on("receiveNotification", (notification: string) => {
-      setNotifications((prev) => [...prev, notification]);
-    });
-
-    return () => {
-      socket.off("receiveNotification");
-    };
-  }, []);
-
-  const sendNotification = () => {
-    if (message.trim()) {
-      socket.emit("sendNotification", message);
-      setMessage("");
-    }
-  };
+  socket.on("sendNotification", (message: string) => {
+    setNotifications([...notifications, message]);
+  });
 
   return (
     <div>
-      <h1>Push Notification App</h1>
-      <input
-        type="text"
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-        placeholder="Enter your notification message"
-      />
-      <button onClick={sendNotification}>Send Notification</button>
       <h2>Notifications:</h2>
       <ul>
         {notifications.map((notification, index) => (
