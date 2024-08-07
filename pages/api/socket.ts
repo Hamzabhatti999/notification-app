@@ -26,6 +26,9 @@ export default function handler(
       socket.on("disconnect", () => {
         console.log("Client disconnected");
       });
+      socket.on("sendNotification", (message, ack) => {
+        console.log(ack, "---------message ---", message);
+      });
     });
   } else {
     console.log("Socket is already running");

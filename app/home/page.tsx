@@ -3,11 +3,16 @@
 "use client";
 import { useEffect, useState } from "react";
 import socket from "@/lib";
-
+import { io } from "socket.io-client";
 const Home = () => {
   const [notifications, setNotifications] = useState<any[]>([]);
   const [message, setMessage] = useState<string>("");
-  socket.on("sendNotification", (message: string) => {
+  socket.on("sendNotification", (message, ack) => {
+    console.log(
+      " ..................sendNotification....................",
+      message
+    );
+    ack({ msg: "received", message: message });
     setNotifications([...notifications, message]);
   });
 
