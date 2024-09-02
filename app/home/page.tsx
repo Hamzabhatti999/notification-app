@@ -7,12 +7,11 @@ import { io } from "socket.io-client";
 const Home = () => {
   const [notifications, setNotifications] = useState<any[]>([]);
   const [message, setMessage] = useState<string>("");
-  socket.on("sendNotification", (message, ack) => {
+  socket.on("sendNotification", (message) => {
     console.log(
       " ..................sendNotification....................",
       message
     );
-    ack({ msg: "received", message: message });
     setNotifications([...notifications, message]);
   });
 

@@ -24,7 +24,7 @@ export default function handler(
       console.log("-- Socket client connected --");
 
       socket.on("disconnect", () => {
-        console.log("Client disconnected");
+        console.log(".... Client disconnected ....");
       });
       socket.on("sendNotification", (message, ack) => {
         console.log(ack, "---------message ---", message);

@@ -12,11 +12,8 @@ export default async function handler(
     const { message } = req.body;
     console.log("body ", req.body);
     let io = res.socket.server.io;
-    const responses = await io
-      .timeout(10000)
-      .emitWithAck("sendNotification", message);
-    console.log("responses ---", responses);
-
+    const notification = io.emit("sendNotification", message);
+    console.log("------- socket------", notification);
     res.status(200).send("successfull");
   }
 }
