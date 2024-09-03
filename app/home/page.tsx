@@ -2,17 +2,14 @@
 
 "use client";
 import { useEffect, useState } from "react";
-import socket from "@/lib";
-import { io } from "socket.io-client";
+import { pusherClient } from "@/lib/pusher";
 const Home = () => {
   const [notifications, setNotifications] = useState<any[]>([]);
-  const [message, setMessage] = useState<string>("");
-  socket.on("sendNotification", (message) => {
-    console.log(
-      " ..................sendNotification....................",
-      message
-    );
-    setNotifications([...notifications, message]);
+  pusherClient.connection.bind("connected", () => {
+    console.log("----------->pusher client connected===========");
+  });
+  pusherClient.subscribe("notifications").bind("push-data", (data: any) => {
+    setNotifications([...notifications, data]);
   });
 
   return (
